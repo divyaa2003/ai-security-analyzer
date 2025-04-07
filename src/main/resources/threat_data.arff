@@ -1,0 +1,24 @@
+@relation threat_analysis
+
+@attribute request_length numeric
+@attribute sql_injection {yes, no}
+@attribute xss_attack {yes, no}
+@attribute ddos_attack {yes, no}
+@attribute phishing {yes, no}
+@attribute mitm {yes, no}
+@attribute zero_day {yes, no}
+@attribute threat_level {low, medium, high, severe, critical}
+
+@data
+300, no, yes, no, no, no, no, high
+150, no, no, no, no, no, no, low
+400, yes, no, no, no, no, no, high
+200, no, yes, no, no, no, no, medium
+500, no, no, yes, no, no, no, severe
+250, no, no, no, yes, no, no, high
+600, no, no, no, no, yes, no, severe
+700, no, no, no, no, no, yes, critical
+350, yes, yes, no, no, no, no, critical
+450, no, no, yes, yes, no, no, severe
+550, no, yes, no, no, yes, no, severe
+650, yes, no, no, no, no, yes, critical

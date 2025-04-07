@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Security Analyzer</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin-top: 30px;
+        }
+        .card {
+            border-radius: 15px;
+        }
+        canvas {
+            background-color: white;
+            padding: 10px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="text-center text-primary">AI-Powered Security Analyzer</h2>
+
+    <!-- Threat Bar Chart -->
+    <div class="card shadow p-3 mb-4">
+        <h5 class="text-center">Threat Levels Overview</h5>
+        <canvas id="threatChart"></canvas>
+    </div>
+
+    <!-- Threat List Table -->
+    <div class="card shadow p-3 mb-4">
+        <h5 class="text-center">Threat List</h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Threat Type</th>
+                    <th>Severity Level</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody id="threatTableBody"></tbody>
+        </table>
+    </div>
+
+    <!-- Automatic Prediction Result -->
+    <div class="card shadow p-4">
+        <h5 class="text-center text-success">Prediction: <span id="predictionResult"></span></h5>
+    </div>
+</div>
+
+<script>
+    // Sample Threat Data
+    const threats = [
+        { type: "SQL Injection", level: 5, description: "A type of attack that allows execution of arbitrary SQL queries." },
+        { type: "XSS", level: 3, description: "A security vulnerability that enables attackers to inject malicious scripts." },
+        { type: "DDoS Attack", level: 7, description: "Overwhelms a system by flooding it with excessive requests." },
+        { type: "Phishing", level: 5, description: "A fraudulent attempt to obtain sensitive information via email or websites." },
+        { type: "MITM Attack", level: 6, description: "An attack where communication between two parties is intercepted." },
+        { type: "Zero-Day Exploit", level: 8, description: "A cyberattack targeting a previously unknown software vulnerability." }
+    ];
+
+    // Populate Threat Table
+    const tableBody = document.getElementById('threatTableBody');
+    threats.forEach(threat => {
+        let row = `<tr>
+            <td>${threat.type}</td>
+            <td>${threat.level}</td>
+            <td>${threat.description}</td>
+        </tr>`;
+        tableBody.innerHTML += row;
+    });
+
+    // Chart.js Configuration
+    const ctx = document.getElementById('threatChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: threats.map(threat => threat.type),
+            datasets: [{
+                label: 'Threat Level',
+                data: threats.map(threat => threat.level),
+                backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#F3C623', '#A233FF', '#FF3385'],
+                borderColor: ['#C70039', '#28A745', '#1F78B4', '#D39E00', '#6C33A2', '#B30E4A'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // Automatic Prediction Based on Highest Threat Level
+    const maxThreat = threats.reduce((prev, current) => (prev.level > current.level) ? prev : current);
+    document.getElementById("predictionResult").innerText = `Highest Threat: ${maxThreat.type} (Level: ${maxThreat.level})`;
+</script>
+
+</body>
+</html>
